@@ -90,10 +90,30 @@ class MixVPR(nn.Module):
         x = F.normalize(x.flatten(1), p=2, dim=-1)
         return x
 
-### Implement ResNet-50 here for MixVPR model,
-### otherwise `self.backbone = ResNet()` will fail
-### (academic purpose)
+# ResNet50 pre-addestrata su ImageNet, con modifiche per estrarre feature map da 1024 canali (layer3).
+class ResNet(nn.Module):
+    def __init__(self):
+        super().__init__()
 
+        self.model = torchvision.models.resnet50()
+
+        # MixVPR usa feature map da 1024 canali, quindi ci fermiamo a layer3.
+        # Rimuoviamo layer4 e la testa classificativa.
+        del self.model.layer4
+        del self.model.avgpool
+        del self.model.fc
+
+    def forward(self, x):
+        x = self.model.conv1(x)
+        x = self.model.bn1(x)
+        x = self.model.relu(x)
+        x = self.model.maxpool(x)
+
+        x = self.model.layer1(x)
+        x = self.model.layer2(x)
+        x = self.model.layer3(x)
+
+        return x
 
 class MixVPRModel(torch.nn.Module):
     def __init__(self, agg_config={}):

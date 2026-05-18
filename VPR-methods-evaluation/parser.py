@@ -57,6 +57,19 @@ def parse_arguments():
         "--log_dir", type=str, default="default", help="experiment name, output logs will be saved under logs/log_dir"
     )
     parser.add_argument("--device", type=str, default="cuda", choices=["cuda", "cpu"], help="_")
+    
+    #aggiunta argomento per scegliete il la metrica di distanza da utilizzare per il
+    parser.add_argument(
+    "--knn_metric",
+    type=str,
+    default="l2",
+    choices=["l2", "ip"],
+    help="KNN metric: l2 or inner product"
+    )
+    
+    
+    
+    
     parser.add_argument(
         "--recall_values",
         type=int,
@@ -86,6 +99,8 @@ def parse_arguments():
         help="Resizing shape for images (HxW). If a single int is passed, set the"
         "smallest edge of all images to this value, while keeping aspect ratio",
     )
+    
+
     parser.add_argument(
         "--save_descriptors",
         action="store_true",

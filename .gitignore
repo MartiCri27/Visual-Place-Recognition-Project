@@ -1,3 +1,11 @@
+
+#cartella descrittivo
+#annotazioni mie per il progetto, non è necessario per il funzionamento del codice, ma è utile 
+#per me per tenere traccia di idee e appunti
+descrittivo/
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

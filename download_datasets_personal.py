@@ -4,8 +4,8 @@
 # Il file zip viene eliminato automaticamente dopo l'estrazione.
 #
 # Utilizzo:
-#   python download_datasets_personal.py tokyo_xs
-#   python download_datasets_personal.py tokyo_xs sf_xs
+#   python download_datasets_personal.py --dataset tokyo_xs
+#   python download_datasets_personal.py --dataset tokyo_xs sf_xs
 #   python download_datasets_personal.py --help
 #
 # Dataset disponibili: tokyo_xs | sf_xs | gsv_xs | svox
@@ -21,15 +21,16 @@ import gdown
 import shutil
 import argparse
 parser = argparse.ArgumentParser()
-parser.add_argument("datasets", nargs="+", choices=list(URLS.keys()), metavar="DATASET",
+parser.add_argument("--dataset", nargs="+", choices=list(URLS.keys()), required=True, metavar="DATASET",
                     help=f"Dataset da scaricare. Scegli tra: {', '.join(URLS.keys())}")
 args = parser.parse_args()
 os.makedirs("data", exist_ok=True)
 for dataset_name, url in URLS.items():
-    if dataset_name not in args.datasets:
+    if dataset_name not in args.dataset:
         continue
     print(f"Downloading {dataset_name}")
     zip_filepath = f"data/{dataset_name}.zip"
     gdown.download(url, zip_filepath, fuzzy=True)
     shutil.unpack_archive(zip_filepath, extract_dir="data")
     os.remove(zip_filepath)
+print("Download and extraction completed.")

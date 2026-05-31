@@ -58,7 +58,7 @@ def parse_arguments():
     )
     parser.add_argument("--device", type=str, default="cuda", choices=["cuda", "cpu"], help="_")
     
-    #aggiunta argomento per scegliete il la metrica di distanza da utilizzare per il
+    #aggiunta argomento per scegliete il la metrica di distanza da utilizzare per il KNN
     parser.add_argument(
     "--knn_metric",
     type=str,
